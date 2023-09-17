@@ -1,0 +1,205 @@
+;;; emacs config
+(put 'upcase-region 'disabled nil)
+
+(add-to-list 'custom-theme-load-path "~/.emacs.d/themes/")
+(menu-bar-mode)
+(toggle-scroll-bar -1)
+(tool-bar-mode -1)
+
+;;something emacs should have on by default... this is used to increase and decrease size
+(global-set-key (kbd "C-+") 'text-scale-increase)
+(global-set-key (kbd "C--") 'text-scale-decrease)
+(show-paren-mode t)
+
+(package-install 'flycheck)
+(global-flycheck-mode t)
+
+(auto-complete-mode 1)
+(global-display-line-numbers-mode t)
+(desktop-save-mode 1)
+
+(require 'use-package)
+(customize-set-variable 'package-archives
+			'(("org"       . "https://orgmode.org/elpa/")
+			  ("gnu"       . "https://elpa.gnu.org/packages/")
+			  ("melpa"     . "https://melpa.org/packages/")
+			  ("melpa-stable"     . "https://stable.melpa.org/packages/")
+			  ))
+
+(package-initialize)
+;;python support in emacs
+(use-package elpy
+  :ensure t
+  :defer t
+  :init
+  (advice-add 'python-mode :before 'elpy-enable))
+(customize-set-variable 'elpy-rpc-python-command "/usr/bin/python3")
+
+;;rust lang support in emacs!!!
+(add-hook 'racer-mode-hook #'company-mode)
+(add-hook 'rust-mode-hook #'racer-mode)
+(add-hook 'racer-mode-hook #'eldoc-mode)
+(require 'rust-mode)
+
+(package-install 'use-package)
+
+(when (not package-archive-contents)
+  (package-refresh-contents))
+
+(when (not (package-installed-p 'use-package))
+  (package-install 'use-package))
+
+(customize-set-variable 'use-package-always-defer nil)
+(customize-set-variable 'use-package-always-ensure t)
+
+(use-package auto-compile
+  :config (auto-compile-on-load-mode))
+(setq load-prefer-newer t)
+
+
+(require 'use-package)
+(customize-set-variable 'package-archives
+			'(("org"       . "https://orgmode.org/elpa/")
+			  ("gnu"       . "https://elpa.gnu.org/packages/")
+			  ("melpa"     . "https://melpa.org/packages/")
+			  ("melpa-stable"     . "https://stable.melpa.org/packages/")
+			  ))
+
+(package-initialize)
+(package-install 'use-package)
+
+(when (not package-archive-contents)
+  (package-refresh-contents))
+
+(when (not (package-installed-p 'use-package))
+  (package-install 'use-package))
+
+(customize-set-variable 'use-package-always-defer nil)
+(customize-set-variable 'use-package-always-ensure t)
+
+(use-package auto-compile
+  :config (auto-compile-on-load-mode))
+(setq load-prefer-newer t)
+(use-package env-var-import
+  :config (env-var-import))
+;(append-exec-path "~/bin")
+;(push-exec-path ".")
+
+;; Access mode to delete a region when a key is struck (i.e., as in Windows):
+(customize-set-variable 'cua-delete-selection nil)
+(customize-set-variable 'delete-active-region nil)
+(savehist-mode 1)
+
+(message "Loading eldoc")
+(use-package eldoc
+  :diminish eldoc-mode
+  :commands turn-on-eldoc-mode
+  :defer t
+  :init (progn
+	   (add-hook 'emacs-lisp-mode-hook 'turn-on-eldoc-mode)
+	   (add-hook 'lisp-interaction-mode-hook 'turn-on-eldoc-mode)
+	   (add-hook 'ielm-mode-hook 'turn-on-eldoc-mode)))
+
+;(custom-set-variables
+; '((projectile-switch-project-action neotree-projectile-action)))
+
+(message "Loading undo-tree")
+(use-package undo-tree
+  :config (global-undo-tree-mode))
+
+(use-package filladapt
+  :config (setq-default filladapt-mode t))
+
+(use-package visual-regexp)
+
+(message "Loading autoinsert")
+(use-package autoinsert
+  :config (auto-insert-mode t))
+(customize-set-variable
+ 'auto-insert-alist
+ '((html-mode lambda nil
+	      (sgml-tag "html"))
+   (plain-tex-mode . "tex-insert.tex")
+   (org-mode . "org.org")
+   ("notes.org" . "notes-insert.org")))
+
+(message "loading fly spell")
+(use-package flyspell
+  :hook (
+	 (prog-mode . flyspell-prog-mode)
+	 (text-mode . flyspell-mode)
+	)
+)
+
+(message "loading synosaurus")
+(use-package synosaurus
+  :diminish synosaurus-mode
+  :init (synosaurus-mode)
+  :config (setq synosaurus-choose-method 'popup)
+  (global-set-key (kbd "M-#") 'synosaurus-choose-and-replace))
+(message "loading google translate")
+(use-package google-translate
+  :config (global-set-key "\C-ct" 'google-translate-at-point))
+(message "loading goto-chg")
+(use-package goto-chg
+  :init (setq glc-default-span 0)
+  :bind (("C-c e ," . goto-last-change)
+	 ("C-c e ." . goto-last-change-reverse))
+  )
+(message "Loading dired-toggle-sudo")
+
+(use-package dired-toggle-sudo
+  :config (eval-after-load 'tramp
+	    '(progn
+	       ;; Allow to use: /sudo:user@host:/path/to/file
+	       (add-to-list 'tramp-default-proxies-alist
+			    '(".*" "\\`.+\\'" "/ssh:%h:"))))
+  :bind (:map dired-mode-map ("C-c C-s" . dired-toggle-sudo)))
+;; Use sudo in dired:1 ends here
+(message "Loading Helm")
+(add-to-list 'load-path "~/.emacs.d/libs")
+(load-library "helm-setup")
+(message "loading magit")
+(use-package magit)
+(message "loading which key")
+(use-package which-key
+  :defer nil
+  :diminish which-key-mode
+  :config
+  (which-key-mode))
+(message "loading persistent scratch")
+(use-package persistent-scratch
+  :config
+  (persistent-scratch-setup-default))
+(bind-key "M-g" #'goto-line)
+(server-start)
+
+`(
+  (savehist-file "~/.emacs.d/history")
+  (history-length t)
+  (history-delete-duplicates t)
+  (savehist-save-minibuffer-history 1)
+  (savehist-additional-variables
+   (kill-ring
+    search-ring
+    regexp-search-ring
+    )
+   )
+  )
+(savehist-mode 1)
+(message "loading spaceline")
+(use-package spaceline
+  :config
+  (require 'spaceline-config)
+  (setq spaceline-buffer-encoding-abbrev-p nil)
+  (setq spaceline-line-column-p nil)
+  (setq spaceline-line-p nil)
+  (setq powerline-default-separator 'arrow)
+  :init
+  (spaceline-helm-mode)
+  (spaceline-spacemacs-theme)
+  )
+(package-install 'flycheck)
+(global-flycheck-mode)
+(with-eval-after-load 'rust-mode
+  (add-hook 'flycheck-mode-hook #'flycheck-rust-setup))

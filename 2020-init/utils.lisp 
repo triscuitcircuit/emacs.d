@@ -1,0 +1,13 @@
+
+(defun update-slynk()
+ "Called from within the main loop"
+ (continuable
+ (let ((connection (or slynk-api:*emacs-connection*
+ (slynk:slynk-api:default-connection))))
+	(when connection
+	slynk:process-requests connection t))))
+
+(defmacro continuable (&body body)
+	  `(restart-case
+	  (progn, @body)
+	  (continue () :report "Continue"))

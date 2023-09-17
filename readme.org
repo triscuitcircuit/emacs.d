@@ -1,0 +1,52 @@
+* Emacs Configuration
+  \paragraph{}
+  This is my personal Emacs configuration (2020-current). I have used this configuration
+  every day for the last 3-4 years during my time as a Computer Science
+  undergraduate at the University of Maine (2019-2023). 
+** Packages used
+   \paragraph{}
+   This is a short list describing some of the major packages used in this
+   Emacs configuration. Some are operating system specific, such as the
+   packages built for ~OSX~ (now MacOS). Some package modifications,
+   such as for ~Helm~ and ~Org~, are from Dr Roy Turner's Emacs configuration.\\
+   Make sure the package manager ~Melpa~ is installed for this configuration.
+   - [[https://github.com/emacs-helm/helm][Helm]]
+   - [[https://github.com/joaotavora/sly][Sly]]
+   - [[https://github.com/doomemacs/themes][Doom Emacs Theme Pack]]
+   - [[https://github.com/Mstrodl/elcord][Elcord]]
+   - [[https://github.com/jojojames/dired-sidebar][Dired Sidebar]]
+   - [[https://orgmode.org/][Org Mode]]
+   - [[https://github.com/joaotavora/yasnippet][Yasnippet]]
+   - [[https://github.com/company-mode/company-mode][Company]]
+   - [[https://github.com/jorgenschaefer/elpy][Elpy Mode]]
+   - [[https://github.com/racer-rust/emacs-racer][Emacs Racer]]
+   - [[https://www.emacswiki.org/emacs/ElDoc][Eldoc]]
+   - [[https://magit.vc/][Magit]]
+   - [[https://github.com/TheBB/spaceline][Spaceline]]
+   - [[https://github.com/emacsorphanage/osx-trash][OSX-Trash]]
+   - [[https://github.com/rolandwalker/osx-browse][OSX Browse]]
+   - [[https://github.com/jkitchin/org-ref][Org-ref]]
+   - [[https://github.com/seagle0128/doom-modeline][Doom Modeline]]
+   - [[https://github.com/emacsmirror/diminish][Diminish]]
+   - [[https://github.com/Fanael/rainbow-delimiters][Rainbow Delimeters]]
+   - [[https://gitlab.com/oer/emacs-reveal][Reveal.js]]
+** How to setup
+   \paragraph{}
+   Replace the ~init.el~ file in your Emacs directory with the one in this repository. If a ~init.el~ file
+   does not already exist, move the ~init.el~ file in this repository to your Emacs directory.
+   Make sure the library folders are also moved into the Emacs folder. If your Emacs
+   uses the ~emacs~ file to load configuration, copy the contents of the ~init.el~ into the ~emacs~ file.
+** Suggested Installs
+   \paragraph{}
+   In order for this configuration to work correctly for Latex in ~Org-mode~, it requires the use of
+   LuaTex ([[https://www.luatex.org/download.html]]). In order for Common Lisp to work correctly with ~Sly~,
+   it is recommended that SBCL ([[https://www.sbcl.org/platform-table.html]]) be installed.
+** Known Issues
+   \paragraph{}
+   Due to the modifications to allow the mini-buffer frame to be in the middle of the screen, sometimes
+   it malfunctions and changes the buffer to the size to the size of the mini-buffer. To prevent this from happening,
+   make sure the mini-buffer is properly exited with ~C-g~.
+** Special Thanks
+   - Dr Roy Turner: A special thanks to Professor Roy for allowing use of
+     his configuration code.
+   
